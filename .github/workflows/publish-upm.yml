@@ -3,17 +3,18 @@ name: Publish UPM Package
 on:
 push:
 tags:
-- 'v*..' # 当打上 v1.0.0 这种 tag 时触发
+- 'v*.*.*'
 
 jobs:
 publish:
 runs-on: ubuntu-latest
 
+```
 steps:
   - name: Checkout repository
     uses: actions/checkout@v4
     with:
-      fetch-depth: 0  # 必须要完整历史记录才能推送分支
+      fetch-depth: 0
 
   - name: Set up Git
     run: |
@@ -22,7 +23,8 @@ steps:
 
   - name: Create or update upm branch
     run: |
-      git checkout -B upm  # 创建或切换到 upm 分支
+      git checkout -B upm
       git add .
       git commit -m "UPM package update for $GITHUB_REF" || echo "No changes to commit"
       git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:upm --force
+```
