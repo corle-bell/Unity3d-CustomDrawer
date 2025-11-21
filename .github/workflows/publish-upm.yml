@@ -2,13 +2,11 @@
 
 name: Update UPM Package on Tag
 
-# 关键修改：当有 Tag 被推送时触发
 on:
   push:
     tags:
-      - '*' # 匹配所有标签，如果你只想匹配特定格式，比如 v1.0.0，可以写成 'v*'
+      - '*'
 
-# 仍然需要写入权限来推送代码
 permissions:
   contents: write
 
@@ -20,36 +18,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        # 为了获取完整的历史和所有标签，建议设置 fetch-depth: 0
         fetch-depth: 0
-
-    # （可选）在这里可以添加你的构建、测试或打包步骤
-    # - name: Build project
-    #   run: dotnet build
-    # ...
 
     - name: Prepare and push UPM branch
       run: |
-        # 配置 Git 用户信息
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
-        # 获取当前推送的 Tag 名称
         TAG_NAME="${GITHUB_REF#refs/tags/}"
         echo "Triggered by Tag: $TAG_NAME"
         
-        # 切换并强制创建 upm 分支
         git checkout -B upm
         
-        # （重要）将 Tag 对应的代码合并到 upm 分支
-        # 这确保了 upm 分支的代码与 Tag 版本完全一致
         git merge --ff-only "origin/$TAG_NAME" || echo "Tag $TAG_NAME already merged or upm branch is ahead."
         
-        # 添加所有更改（例如，package.json 版本号的自动更新等）
         git add .
         
-        # 提交更改， Commit 信息中包含 Tag 名称
         git commit -m "UPM package update for Tag: $TAG_NAME" || echo "No changes to commit for UPM branch."
         
-        # 强制推送到 upm 分支
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/corle-bell/Unity3d-CustomDrawer.git HEAD:upm --force
