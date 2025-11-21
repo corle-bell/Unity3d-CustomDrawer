@@ -1,0 +1,27 @@
+name: Release UPM Package
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  upm-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 必须，subtree 需要完整历史
+
+      - name: Create UPM Branch
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          
+          # 将子目录导出为 upm 分支
+          git subtree split --prefix="Assets/CustomDrawer" -b upm
+
+          # 强制推送到远程 upm 分支
+          git push origin upm --force

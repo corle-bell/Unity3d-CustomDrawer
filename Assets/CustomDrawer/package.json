@@ -1,0 +1,12 @@
+{
+  "name": "com.core-bell.custom-drawer",
+  "version": "1.0.0",
+  "displayName": "Custom Drawer Toolkit",
+  "description": "A collection of useful custom property drawers for Unity.",
+  "unity": "2019.1",
+  "author": {
+    "name": "core-bell",
+    "url": "https://github.com/corle-bell"
+  },
+  "license": "MIT"
+}

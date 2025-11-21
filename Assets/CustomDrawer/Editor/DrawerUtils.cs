@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using BmFramework.Core;
 using UnityEditor;
 
 namespace Bm.Drawer
