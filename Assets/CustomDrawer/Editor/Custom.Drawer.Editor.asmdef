@@ -1,0 +1,16 @@
+{
+    "name": "Custom.Drawer.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:24ba79d03363b7d43b13f327644ab408"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -16,12 +16,12 @@ using System.Linq;
 
 namespace Bm.Drawer
 {
-    public class ConstStringSelectWindow : EditorWindow
+    public class ConstValueSelectWindow : EditorWindow
     {
 
-        public static ConstStringSelectWindow Open(SerializedProperty _serializedProperty, ConstStringSelectAttribute _atr)
+        public static ConstValueSelectWindow Open(SerializedProperty _serializedProperty, ConstValueSelectAttribute _atr)
         {
-            ConstStringSelectWindow myWindow = EditorWindow.GetWindow(typeof(ConstStringSelectWindow), false, "ConstStringSelectWindow", true) as ConstStringSelectWindow;
+            var myWindow = EditorWindow.GetWindow(typeof(ConstValueSelectWindow), false, "ConstValueSelectWindow", true) as ConstValueSelectWindow;
             myWindow.Init(_serializedProperty, _atr);
             myWindow.Show();
             return myWindow;
@@ -45,15 +45,31 @@ namespace Bm.Drawer
         private int ArrayIndex = -1;
         private Vector2 scroll;
         private bool autoClose;
-        public void Init(SerializedProperty _serializedProperty, ConstStringSelectAttribute _atr)
+        private Type type;
+        private ConstValueSelectAttribute SrcAtr;
+        public void Init(SerializedProperty _serializedProperty, ConstValueSelectAttribute _atr)
         {
             serializedProperty = _serializedProperty;
             propertyRoot = root = (_serializedProperty.serializedObject.targetObject as Component);
 
+            SrcAtr = _atr;
             autoClose = _atr.isAutoClose;
+            type = _atr.type;
             
             GetPropertyName(_serializedProperty.propertyPath);
-            InitList(_serializedProperty.stringValue);
+            InitList(GetDefault(_serializedProperty));
+        }
+
+        private string GetDefault(SerializedProperty _serializedProperty)
+        {
+            switch (_serializedProperty.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                    return _serializedProperty.intValue.ToString();
+                case SerializedPropertyType.String:
+                    return _serializedProperty.stringValue;
+            }
+            return "";
         }
 
         private void GetPropertyName(string _path)
@@ -176,14 +192,7 @@ namespace Bm.Drawer
       
         protected void SetString(string _text)
         {
-            if (ArrayIndex>=0)
-            {
-                (propertyRoot as string[])[ArrayIndex] = _text;
-            }
-            else
-            {
-                propertyRoot.GetType().GetField(fieldName).SetValue(propertyRoot, _text);
-            }
+            SrcAtr.SetValue(fieldName, propertyRoot, _text, ArrayIndex);
             EditorUtility.SetDirty(root);
         }
 
@@ -199,17 +208,25 @@ namespace Bm.Drawer
             {
                 foreach (System.Attribute a in o)
                 {
-                    if (a is ConstStringContentAttribute)
+                    if (a is ConstValueContentAttribute)
                         return true;
                 }
                 return false;
             };
 
-            //查找具有 Attribute.Atts.Att1 特性的类型（使用的是 linq 语法）
-            Type[] CosType = types.Where(o =>
+            Type[] CosType = null;
+            if (type == null)
             {
-                return IsAtt1(System.Attribute.GetCustomAttributes(o, true));
-            }).ToArray();
+                //查找具有 Attribute.Atts.Att1 特性的类型（使用的是 linq 语法）
+                CosType = types.Where(o =>
+                {
+                    return IsAtt1(System.Attribute.GetCustomAttributes(o, true));
+                }).ToArray();
+            }
+            else
+            {
+                CosType = new[] { type };
+            }
 
             classList = new FiledData[CosType.Length][];
             classDesc = new string[classList.Length];
@@ -238,7 +255,7 @@ namespace Bm.Drawer
             
             FieldInfo[] fields = t.GetFields();
  
-            Type typeString = typeof(string);
+            Type typeString = SrcAtr.FiledType;
 
             object oValue = null;
  
@@ -256,7 +273,7 @@ namespace Bm.Drawer
                     continue;
  
  
-                string s = fi.GetValue(null) as string;
+                string s = fi.GetValue(null).ToString();
 
                 if (_default.Equals(s))
                 {
@@ -265,7 +282,7 @@ namespace Bm.Drawer
                 }
 
                 FiledData fd = new FiledData();
-                fd.content = s;
+                fd.content = s.ToString();
                 fd.title = fi.Name;
                 ret.Add(fd);
             }

@@ -15,27 +15,33 @@ using UnityEditor;
 
 namespace Bm.Drawer
 {
-    [CustomPropertyDrawer(typeof(ConstStringSelectAttribute))]
-
-    public class ConstStringDrawer : PropertyDrawer
+    public class ConstValueDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            ConstStringSelectAttribute attr = (ConstStringSelectAttribute)attribute;
+            ConstValueSelectAttribute attr = (ConstValueSelectAttribute)attribute;
 
             Rect src = new Rect(position);
             src.width = position.width * 0.85f-18;
-            EditorGUI.PropertyField(src, property);
+            EditorGUI.PropertyField(src, property, label);
 
             src.width = position.width*0.15f+18;
             src.x = position.width*0.85f;
             
             if (GUI.Button(src, "Select"))
             {
-                ConstStringSelectWindow.Open(property, attr);
+                ConstValueSelectWindow.Open(property, attr);
             }
         }
     }
+    
+    
+    [CustomPropertyDrawer(typeof(ConstStringSelectAttribute))]
+    public class ConstStringDrawer : ConstValueDrawer{}
+    
+    [CustomPropertyDrawer(typeof(ConstIntSelectAttribute))]
+    public class ConstIntDrawer : ConstValueDrawer{}
+
 }
 
 

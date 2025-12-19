@@ -4,7 +4,6 @@ using Bm.Drawer;
 using UnityEngine;
 
 
-[ConstStringContent]
 public class GameStringDefine
 {
     public const string Game_Begin = "Game_Begin";
@@ -12,10 +11,9 @@ public class GameStringDefine
     public const string Game_End = "Game_End";
 }
 
-[ConstStringContent]
-public class UIStringDefine
+public class UIDefine
 {
-    public const string UI_Title = "This is Title";
-    public const string UI_Hp = "This is Hp";
-    public const string UI_Level = "This is Hp";
+    public const int UI_Game = 0;
+    public const int UI_Win = 1;
+    public const int UI_Fail = 2;
 }

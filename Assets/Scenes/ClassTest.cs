@@ -26,11 +26,11 @@ public class ClassTest : MonoBehaviour
     public Component script3;
 
 
-    [ConstStringSelect]
+    [ConstStringSelect(typeof(GameStringDefine))]
     public string text0;
     
-    [ConstStringSelect]
-    public string text1;
+    [ConstIntSelect(typeof(UIDefine))]
+    public int number1;
 
     [CustomLabelList(typeof(UIName))]
     public string[] UiTitle;
@@ -56,7 +56,7 @@ public class ClassTest : MonoBehaviour
         Debug.Log($"script3 = {script3}");
         
         Debug.Log($"text0 = {text0}");
-        Debug.Log($"text1 = {text1}");
+        Debug.Log($"text1 = {number1}");
         
         
         Debug.Log($"{UIName.Loading} = {UiTitle[(int)UIName.Loading]}");
