@@ -16,6 +16,45 @@ using System.Linq;
 
 namespace Bm.Drawer
 {
+    public static class ConstValueRegistry
+    {
+        public static readonly List<Type> TypeCache = new List<Type>();
+
+        static ConstValueRegistry()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            List<Type> targetTypes = TypeCache;
+            foreach (var asm in assemblies)
+            {
+                Type[] types;
+                try
+                {
+                    types = asm.GetExportedTypes();
+                }
+                catch (ReflectionTypeLoadException e)
+                {
+                    types = e.Types.Where(t => t != null).ToArray();
+                }
+
+                var ttt = types.Where(o => IsConstValue(o, true)).ToArray();
+                
+                targetTypes.AddRange(ttt);
+            }
+        }
+
+
+        static bool IsConstValue(Type type, bool inherit)
+        {
+            var arr = Attribute.GetCustomAttributes(type, true);
+            foreach (System.Attribute a in arr)
+            {
+                if (a is ConstValueContentAttribute)
+                    return true;
+            }
+            return false;
+        }
+    }
+    
     public class ConstValueSelectWindow : EditorWindow
     {
 
@@ -198,30 +237,10 @@ namespace Bm.Drawer
 
         protected void InitList(string _default)
         {
-            //这里的代码 引用自 https://www.cnblogs.com/xxj-jing/archive/2011/09/29/2890100.html
-            //加载程序集信息
-            Assembly ass = Assembly.Load("Assembly-CSharp");
-            Type[] types = ass.GetExportedTypes(); //还是用这个比较好，得到的都是自定义的类型
-
-            // 验证指定自定义属性（使用的是 4.0 的新语法，匿名方法实现的，不知道的同学查查资料吧！）
-            Func<System.Attribute[], bool> IsAtt1 = o =>
-            {
-                foreach (System.Attribute a in o)
-                {
-                    if (a is ConstValueContentAttribute)
-                        return true;
-                }
-                return false;
-            };
-
             Type[] CosType = null;
             if (type == null)
             {
-                //查找具有 Attribute.Atts.Att1 特性的类型（使用的是 linq 语法）
-                CosType = types.Where(o =>
-                {
-                    return IsAtt1(System.Attribute.GetCustomAttributes(o, true));
-                }).ToArray();
+                CosType = ConstValueRegistry.TypeCache.Where(t => t != null).ToArray();
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Bm.Drawer;
@@ -9,6 +10,16 @@ public enum UIName
     Game,
     Shop,
     Setting
+}
+
+[Serializable]
+public class ChildTest
+{
+    [ConstIntSelect(typeof(UIDefine))]
+    public int A;
+    
+    [ConstStringSelect(typeof(GameStringDefine))]
+    public string B;
 }
 
 public class ClassTest : MonoBehaviour
@@ -26,10 +37,10 @@ public class ClassTest : MonoBehaviour
     public Component script3;
 
 
-    [ConstStringSelect(typeof(GameStringDefine))]
+    [ConstStringSelect]
     public string text0;
     
-    [ConstIntSelect(typeof(UIDefine))]
+    [ConstIntSelect]
     public int number1;
 
     [CustomLabelList(typeof(UIName))]
@@ -47,6 +58,9 @@ public class ClassTest : MonoBehaviour
     
     [ShowTimeStamp(60)]
     public int TimeTicks2 = 28446289;
+
+
+    public ChildTest [] ChildClass;
     // Start is called before the first frame update
     void Start()
     {

@@ -215,8 +215,8 @@ MonoBehaviour:
   script1: {fileID: 435196669}
   script2: {fileID: 223702376}
   script3: {fileID: 223702377}
-  text0: Game_Begin
-  number1: 2
+  text0: UI_Button
+  number1: 10
   UiTitle:
   - This is Loading
   - This is Game
@@ -226,6 +226,11 @@ MonoBehaviour:
   TimeTicks0: 1706863751
   TimeTicks1: 1706777351
   TimeTicks2: 28446289
+  ChildClass:
+  - A: 1
+    B: Game_Begin
+  - A: 1
+    B: Game_End
 --- !u!114 &296866799
 MonoBehaviour:
   m_ObjectHideFlags: 0

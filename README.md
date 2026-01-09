@@ -1,3 +1,24 @@
+# 安装
+
+```
+{
+    "scopedRegistries": [
+        {
+            "name": "package.openupm.com",
+            "url": "https://package.openupm.com",
+            "scopes": [
+                "com.core-bell.custom-drawer"
+            ]
+        }
+    ],
+    "dependencies": {
+        "com.core-bell.custom-drawer": "1.0.9"
+    }
+}
+```
+
+
+
 # ClassVariableSelect
 
 选择类中的字段
@@ -66,33 +87,57 @@ public int TimeTicks1 = 1706777351;
 
 ![Image text](https://github.com/corle-bell/ComponentSelect/blob/main/Screenshoot/DropDown.png)
 
-# ConstStringSelect
+# ConstValueSelect
 
 常量字符串选择器
 
+指定类型则指定的类型里选择。
+
+不指定类型的话会搜索含有 [ConstValueContent]的类列出，通过上方的下拉菜单选择。
+
 ```csharp
-[ConstStringContent]
-public class UIStringDefine
+[ConstValueContent]
+public class GameStringDefine
 {
-    public const string UI_Title = "This is Title";
-    public const string UI_Hp = "This is Hp";
-    public const string UI_Level = "This is Hp";
+    public const string Game_Begin = "Game_Begin";
+    public const string Game_Play = "Game_Play";
+    public const string Game_End = "Game_End";
+    
+    public const int Game_PlayerSpeed = 10;
+    public const int Game_PlayerAttack = 100;
+    public const int Game_PlayerHp = 800;
+}
+
+
+[ConstValueContent]
+public class UIDefine
+{
+    public const int UI_Game = 0;
+    public const int UI_Win = 1;
+    public const int UI_Fail = 2;
+    
+    public const string UI_Title = "UI_Title";
+    public const string UI_Button = "UI_Button";
+    public const string UI_Slider = "UI_Slider";
 }
 
 public class ClassTest : MonoBehaviour
 {
     [ConstStringSelect]
     public string text0;
-}
+    
+    [ConstIntSelect]
+    public int number1; 
+
+    [ConstIntSelect(typeof(UIDefine))]
+    public int A;
+    
+    [ConstStringSelect(typeof(GameStringDefine))]
+    public string B;
+} 
 ```
 
-### Editor界面显示
 
-![Image text](https://github.com/corle-bell/ComponentSelect/blob/main/Screenshoot/ConstStringSelect.png)
-
-### 特性使用
-
-![Image text](https://github.com/corle-bell/ComponentSelect/blob/main/Screenshoot/ConstStringSelect_Code.png)
 
 # CustomLabelList
 
