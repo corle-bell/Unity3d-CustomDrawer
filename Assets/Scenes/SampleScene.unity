@@ -227,8 +227,11 @@ MonoBehaviour:
   TimeTicks1: 1706777351
   TimeTicks2: 28446289
   ChildClass:
+  - A: 0
+    B: Game_Play
   - A: 1
-    B: Game_Begin
+    B: Game_End
+  ChildList:
   - A: 1
     B: Game_End
 --- !u!114 &296866799

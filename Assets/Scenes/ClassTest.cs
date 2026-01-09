@@ -61,6 +61,8 @@ public class ClassTest : MonoBehaviour
 
 
     public ChildTest [] ChildClass;
+
+    public List<ChildTest> ChildList;
     // Start is called before the first frame update
     void Start()
     {

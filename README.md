@@ -12,12 +12,10 @@
         }
     ],
     "dependencies": {
-        "com.core-bell.custom-drawer": "1.0.9"
+        "com.core-bell.custom-drawer": "1.1.0"
     }
 }
 ```
-
-
 
 # ClassVariableSelect
 
@@ -102,7 +100,7 @@ public class GameStringDefine
     public const string Game_Begin = "Game_Begin";
     public const string Game_Play = "Game_Play";
     public const string Game_End = "Game_End";
-    
+
     public const int Game_PlayerSpeed = 10;
     public const int Game_PlayerAttack = 100;
     public const int Game_PlayerHp = 800;
@@ -115,7 +113,7 @@ public class UIDefine
     public const int UI_Game = 0;
     public const int UI_Win = 1;
     public const int UI_Fail = 2;
-    
+
     public const string UI_Title = "UI_Title";
     public const string UI_Button = "UI_Button";
     public const string UI_Slider = "UI_Slider";
@@ -125,19 +123,17 @@ public class ClassTest : MonoBehaviour
 {
     [ConstStringSelect]
     public string text0;
-    
+
     [ConstIntSelect]
     public int number1; 
 
     [ConstIntSelect(typeof(UIDefine))]
     public int A;
-    
+
     [ConstStringSelect(typeof(GameStringDefine))]
     public string B;
 } 
 ```
-
-
 
 # CustomLabelList
 

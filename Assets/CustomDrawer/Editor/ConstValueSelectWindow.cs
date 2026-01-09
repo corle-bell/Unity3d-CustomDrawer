@@ -142,14 +142,14 @@ namespace Bm.Drawer
                             }
                             else if (i==name_parts.Length-2) //property在数组里
                             {
-                                obj = (obj as Array).GetValue(id);
+                                obj = (obj as IList)[id];
                                
                                 fieldName = name_parts[name_parts.Length - 1];
                                 propertyRoot = obj;
                                 return;
                             }
                             
-                            obj = (obj as Array).GetValue(id);
+                            obj = (obj as IList)[id];
                         }
                         else
                         {
