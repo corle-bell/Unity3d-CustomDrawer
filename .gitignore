@@ -12,3 +12,4 @@ obj
 .idea
 Z_Resource
 .github/workflows/publish-upm.yml.bak
+*.bak
