@@ -8,5 +8,6 @@
     "name": "core-bell",
     "url": "https://github.com/corle-bell"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "licenseSpdxId" : ""
 }
