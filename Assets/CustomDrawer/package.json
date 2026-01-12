@@ -3,11 +3,14 @@
   "version": "1.1.0",
   "displayName": "Custom Drawer Toolkit",
   "description": "A collection of useful custom property drawers for Unity.",
-  "unity": "2021.3.x",
+  "unity": "2021.3",
   "author": {
-    "name": "core-bell",
+    "name": "corle-bell",
     "url": "https://github.com/corle-bell"
   },
   "license": "MIT",
-  "licenseSpdxId" : ""
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corle-bell/Unity3d-CustomDrawer"
+  }
 }
