@@ -4,13 +4,22 @@
   "displayName": "Custom Drawer Toolkit",
   "description": "A collection of useful custom property drawers for Unity.",
   "unity": "2021.3",
+  "unityRelease": "0f1",
   "author": {
     "name": "corle-bell",
     "url": "https://github.com/corle-bell"
   },
   "license": "MIT",
+  "licenseSpdxId": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/corle-bell/Unity3d-CustomDrawer"
-  }
+    "url": "https://github.com/corle-bell/Unity3d-CustomDrawer.git"
+  },
+  "keywords": [
+    "unity",
+    "editor",
+    "property-drawer",
+    "inspector"
+  ],
+  "dependencies": {}
 }
