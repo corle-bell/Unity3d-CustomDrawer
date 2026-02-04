@@ -217,6 +217,7 @@ MonoBehaviour:
   script3: {fileID: 223702377}
   text0: UI_Button
   number1: 10
+  HandId: 3
   UiTitle:
   - This is Loading
   - This is Game

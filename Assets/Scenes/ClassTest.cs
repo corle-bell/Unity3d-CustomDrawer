@@ -42,6 +42,9 @@ public class ClassTest : MonoBehaviour
     
     [ConstIntSelect]
     public int number1;
+    
+    [ConstIntSelect(typeof(HandIds), true, true)]
+    public int HandId;
 
     [CustomLabelList(typeof(UIName))]
     public string[] UiTitle;

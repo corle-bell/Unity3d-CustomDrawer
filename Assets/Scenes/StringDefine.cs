@@ -28,3 +28,10 @@ public class UIDefine
     public const string UI_Button = "UI_Button";
     public const string UI_Slider = "UI_Slider";
 }
+
+public partial class HandIds
+{
+    public const int UI_Game = 0;
+    public const int UI_Win = 1;
+    public const int UI_Fail = 2;
+}

@@ -96,7 +96,7 @@ namespace Bm.Drawer
             type = _atr.type;
             
             GetPropertyName(_serializedProperty.propertyPath);
-            InitList(GetDefault(_serializedProperty));
+            InitList(GetDefault(_serializedProperty), _atr.isFindAllAssembly);
         }
 
         private string GetDefault(SerializedProperty _serializedProperty)
@@ -235,44 +235,68 @@ namespace Bm.Drawer
             EditorUtility.SetDirty(root);
         }
 
-        protected void InitList(string _default)
+        protected void InitList(string _default, bool isFindAll)
         {
             Type[] CosType = null;
             if (type == null)
             {
                 CosType = ConstValueRegistry.TypeCache.Where(t => t != null).ToArray();
+                
+                classList = new FiledData[CosType.Length][];
+                classDesc = new string[classList.Length];
+                for (int i=0; i<CosType.Length; i++)
+                {
+                    bool isSelect = false;
+                    Type t = CosType[i];
+                    classDesc[i] = t.FullName;
+                    classList[i] = InitCSC(t.GetFields(), out isSelect, _default);
+                    if (isSelect)
+                    {
+                        selectClass = classIndex = i;
+                    }
+                }
+
+                if (selectClass < 0 && classDesc.Length > 0)
+                {
+                    selectClass = 0;
+                }
             }
             else
             {
-                CosType = new[] { type };
-            }
-
-            classList = new FiledData[CosType.Length][];
-            classDesc = new string[classList.Length];
-            for (int i=0; i<CosType.Length; i++)
-            {
-                bool isSelect = false;
-                Type t = CosType[i];
-                classDesc[i] = t.Name;
-                classList[i] = InitCSC(t, out isSelect, _default);
-                if (isSelect)
+                FieldInfo [] FieldArr = new FieldInfo[] { };
+                if (isFindAll)
                 {
-                    selectClass = classIndex = i;
+                    var allFields = AppDomain.CurrentDomain
+                        .GetAssemblies()
+                        .Where(a => a.GetType("HandIds") != null)
+                        .SelectMany(a => a.GetType("HandIds").GetFields())
+                        .ToList();
+                    
+                    FieldArr = allFields.ToArray();
                 }
+                else
+                {
+                    FieldArr = type.GetFields();
+                }
+                
+                classList = new FiledData[1][];
+                classDesc = new string[classList.Length];
+                bool isSelect = false;
+                Type t = type;
+                classDesc[0] = t.FullName;
+                classList[0] = InitCSC(FieldArr, out isSelect, _default);
+                selectClass = classIndex = 0;
             }
 
-            if (selectClass < 0 && classDesc.Length > 0)
-            {
-                selectClass = 0;
-            }
+            
         }
 
-        private FiledData[] InitCSC(Type t, out bool _isSelect, string _default)
+        private FiledData[] InitCSC(FieldInfo [] fieldInfos, out bool _isSelect, string _default)
         {
             _isSelect = false;
             List<FiledData> ret = new List<FiledData>();
             
-            FieldInfo[] fields = t.GetFields();
+            FieldInfo[] fields = fieldInfos;
  
             Type typeString = SrcAtr.FiledType;
 

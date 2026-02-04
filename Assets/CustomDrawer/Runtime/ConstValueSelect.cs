@@ -10,7 +10,6 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
-
 namespace Bm.Drawer
 {
     [AttributeUsage(AttributeTargets.Field)]
@@ -19,7 +18,7 @@ namespace Bm.Drawer
         public bool isAutoClose;
         public Type type;
         public Type FiledType;
-
+        public bool isFindAllAssembly;
         public virtual void SetValue(string fieldName, object propertyRoot, string _text, int ArrayIndex)
         {
             
@@ -39,12 +38,30 @@ namespace Bm.Drawer
         public ConstStringSelectAttribute(bool _isAutoClose=true) {
             this.isAutoClose = _isAutoClose;
             FiledType = typeof(string);
+            isFindAllAssembly = false;
+        }
+        
+        public ConstStringSelectAttribute(Type _type)
+        {
+            type = _type;
+            this.isAutoClose = true;
+            FiledType = typeof(string);
+            isFindAllAssembly = false;
         }
         
         public ConstStringSelectAttribute(Type _type, bool _isAutoClose=true)
         {
             type = _type;
             this.isAutoClose = _isAutoClose;
+            FiledType = typeof(string);
+            isFindAllAssembly = false;
+        }
+        
+        public ConstStringSelectAttribute(Type _type, bool _isAutoClose=true, bool _isFindAllAssembly=false)
+        {
+            type = _type;
+            this.isAutoClose = _isAutoClose;
+            isFindAllAssembly = _isFindAllAssembly;
             FiledType = typeof(string);
         }
         
@@ -73,6 +90,15 @@ namespace Bm.Drawer
         public ConstIntSelectAttribute(bool _isAutoClose=true) {
             this.isAutoClose = _isAutoClose;
             FiledType = typeof(int);
+            isFindAllAssembly = false;
+        }
+        
+        public ConstIntSelectAttribute(Type _type)
+        {
+            type = _type;
+            this.isAutoClose = true;
+            FiledType = typeof(int);
+            isFindAllAssembly = false;
         }
         
         public ConstIntSelectAttribute(Type _type, bool _isAutoClose=true)
@@ -80,6 +106,15 @@ namespace Bm.Drawer
             type = _type;
             this.isAutoClose = _isAutoClose;
             FiledType = typeof(int);
+            isFindAllAssembly = false;
+        }
+        
+        public ConstIntSelectAttribute(Type _type, bool _isAutoClose=true, bool _isFindAllAssembly=false)
+        {
+            type = _type;
+            this.isAutoClose = _isAutoClose;
+            FiledType = typeof(int);
+            isFindAllAssembly = _isFindAllAssembly;
         }
         
         public override void SetValue(string fieldName, object propertyRoot, string _text, int ArrayIndex)
