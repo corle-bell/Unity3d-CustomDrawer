@@ -268,8 +268,8 @@ namespace Bm.Drawer
                 {
                     var allFields = AppDomain.CurrentDomain
                         .GetAssemblies()
-                        .Where(a => a.GetType("HandIds") != null)
-                        .SelectMany(a => a.GetType("HandIds").GetFields())
+                        .Where(a => a.GetType(type.FullName) != null)
+                        .SelectMany(a => a.GetType(type.FullName).GetFields())
                         .ToList();
                     
                     FieldArr = allFields.ToArray();
